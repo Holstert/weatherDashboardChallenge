@@ -14,13 +14,13 @@
       <thead class="thead-dark">
         <tr>
           <th style="width: 90%"> City </th>
-          <th> Actions</th>
+          <th *ngIf="_citiesSelected.length > 1"> Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of _citiesSelected">
           <th> <button class="btn btn-link" (click)="_citiesSelected.length > 1?revertCity(item, 'remove'):''" data-toggle="tooltip" data-placement="top" title="Remove"> {{item.city}} </button> </th>
-          <th> <button class="btn btn-link" data-toggle="tooltip" title="Remove" (click)="_citiesSelected.length > 1? revertCity(item, 'remove'):''"> <span class="badge badge badge-pill badge-danger">X</span></button> </th>
+          <th *ngIf="_citiesSelected.length > 1"> <button class="btn btn-link" data-toggle="tooltip" title="Remove" (click)="_citiesSelected.length > 1? revertCity(item, 'remove'):''"> <span class="badge badge badge-pill badge-danger">X</span></button> </th>
         </tr>
       </tbody>
     </table>
@@ -41,6 +41,9 @@
     <p class="font-weight-bold"> Days </p>
   </div>
   <div class="col-5">
-      <input type="number" class="form-control" min="2" max="16" [(ngModel)]="_days" (change)="changeDays($event.target.value)"/>
+      <input type="number" class="form-control" min="2" max="16" [(ngModel)]="_days" (change)="changeDays($event)"/>
   </div>
+  <div class="col-6">
+    <p class="alert-red" *ngIf="showAlert.days"> * No puede ser mayor a 15 o menor a 2 dias </p>
+</div>
 </div>

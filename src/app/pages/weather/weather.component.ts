@@ -3,6 +3,8 @@ import { WeatherService } from 'src/app/service/weather.service';
 import { city } from 'src/app/interfaces/city';
 import { scale } from 'src/app/interfaces/scale';
 
+import * as $ from 'jquery';
+
 @Component({
   selector: 'app-weather',
   templateUrl: './weather.component.html',

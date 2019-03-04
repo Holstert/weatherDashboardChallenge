@@ -13,6 +13,9 @@ export class WeatherGraphActionsComponent implements OnInit, AfterViewInit {
   private _scales: object[] = [];
   private _defaultCity: string = 'Obregon';
   private _days: number = 15;
+  private showAlert = {
+    days: false,
+  }
 
   @Input() 
   set cities (cities: object[]) {
@@ -81,7 +84,23 @@ export class WeatherGraphActionsComponent implements OnInit, AfterViewInit {
     this.sendCities.emit(this._citiesSelected);
     this.sendScale.emit(this._scales[$event])
   }
-  changeDays() {
+  changeDays($event) {
+    if (this._days <= 15) {
+      if (this._days >= 2) {
+        this.hideAlertDays();
+        this.sendInfoDays();
+      } else {
+        this._days = 2;
+        this.showAlertDays();
+        this.sendInfoDays();
+      }
+    } else {
+      this._days = 15;
+      this.showAlertDays();
+      this.sendInfoDays();
+    }
+  }
+  sendInfoDays(){
     this.sendCities.emit(this._citiesSelected);
     this.sendDays.emit(this._days);
   }
@@ -90,4 +109,10 @@ export class WeatherGraphActionsComponent implements OnInit, AfterViewInit {
       return item.city != $city;
     });
   } 
+  showAlertDays() {
+    this.showAlert.days = true;
+  }
+  hideAlertDays() {
+    this.showAlert.days = false;
+  }
 }
