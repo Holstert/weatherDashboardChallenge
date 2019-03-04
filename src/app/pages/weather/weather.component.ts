@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherService } from 'src/app/service/weather.service';
+import { city } from 'src/app/interfaces/city';
+import { scale } from 'src/app/interfaces/scale';
 
 @Component({
   selector: 'app-weather',
@@ -8,23 +10,28 @@ import { WeatherService } from 'src/app/service/weather.service';
 })
 export class WeatherComponent implements OnInit {
   //Graph
-  private reDrawGraph = false;
+  private reDrawGraph:boolean = false;
   private linesGraph = [];
   private dateToDraw = [];
   
-  private dateStart: any = new Date();
+  private dateStart: Date = new Date();
+  dateNow:string = ""; 
   
-  private _cities = [];
+  private _cities: city[] = [];
   private _citiesToShow = [];
   private _citiesToSend = [];
   private _citiesSelected = [];
 
-  private _scales = [];
-  private _scale:string = "I";
+  private _scales: scale[] = [];
+  private _scale:string;
 
-  private _days:number = 15;
+  private _days:number;
 
-  constructor (private _weatherService: WeatherService) { }
+  constructor (private _weatherService: WeatherService) { 
+    this._days = 15;
+    this._scale = "I";
+    this.dateNow = `${this.dateStart.getFullYear()}-${('0' + (this.dateStart.getMonth() + 1)).slice(-2)}-${('0'+this.dateStart.getDate()).slice(-2)}`
+  }
   
   ngOnInit() {
     this.getCities();
@@ -56,12 +63,12 @@ export class WeatherComponent implements OnInit {
     this._citiesToShow.push({data: data, label: data.city_name});
   }
   getCities() {
-    this._weatherService.getCities().subscribe((data:any) => {
+    this._weatherService.getCities().subscribe((data:city[]) => {
       this._cities = data;
     });
   }
   getScales() {
-    this._weatherService.getScale().subscribe((data:any) => {
+    this._weatherService.getScale().subscribe((data:scale[]) => {
       this._scales = data;
     })
   }
@@ -86,7 +93,7 @@ export class WeatherComponent implements OnInit {
   }
   dateFormat($date) {
     let date = new Date($date);
-    return `${date.getDate()+1}/${date.getMonth()+1}/${date.getFullYear()}`;
+    return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
   }
   spliceCitiesData(city) {
     this.funReDrawGraph(false);

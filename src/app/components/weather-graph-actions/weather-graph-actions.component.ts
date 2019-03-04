@@ -18,6 +18,7 @@ export class WeatherGraphActionsComponent implements OnInit, AfterViewInit {
   set cities (cities: object[]) {
     this._cities = cities;
     this.setCitiesCopy(this._cities);
+    this.spliceCityToSelect(this._defaultCity)
   }
   @Input() 
   set scales (scales: object[]) {
@@ -31,10 +32,11 @@ export class WeatherGraphActionsComponent implements OnInit, AfterViewInit {
 
   constructor() { }
 
-  ngOnInit() { 
+  ngOnInit() {  
     this.sendCitySelected(this._defaultCity);
   }
   ngAfterViewInit(): void {
+    this.setCitiesCopy(this._cities);
     setTimeout(() => {
       this.addCity(this._defaultCity); 
       this.sendCitiesArray()
@@ -47,7 +49,6 @@ export class WeatherGraphActionsComponent implements OnInit, AfterViewInit {
     let cities = this._citiesCopy.filter((item:any) => {
       return item.city != $item
     })
-
     this.setCitiesCopy(cities);
     this._citiesSelected.push({"city": $item})
   }
@@ -84,4 +85,9 @@ export class WeatherGraphActionsComponent implements OnInit, AfterViewInit {
     this.sendCities.emit(this._citiesSelected);
     this.sendDays.emit(this._days);
   }
+  spliceCityToSelect($city) {
+    this._citiesCopy = this._citiesCopy.filter((item:any) => {
+      return item.city != $city;
+    });
+  } 
 }

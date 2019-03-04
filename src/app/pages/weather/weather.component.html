@@ -26,7 +26,7 @@
             <p class="font-weight-bold"> Date </p>
           </div>
           <div class="col-5">
-              <input type="date" class="form-control" (change)="addDateToGraph($event.target.value)"/>
+              <input type="date" class="form-control" [(ngModel)]="dateNow" (change)="addDateToGraph($event.target.value)"/>
           </div>
         </div>
       </div>
