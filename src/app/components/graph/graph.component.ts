@@ -37,10 +37,6 @@ export class GraphComponent {
   public lineChartType:string = 'line';
 
   // events
-  public chartClicked(e:any):void {
-
-  }
-  public chartHovered(e:any):void {
-
-  }
+  public chartClicked(e:any):void { }
+  public chartHovered(e:any):void { }
 }
